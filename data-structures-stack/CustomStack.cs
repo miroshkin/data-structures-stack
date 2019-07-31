@@ -1,29 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace data_structures_stack
 {
     public class CustomStack <T>
     {
         private T[] _stack;
-        private int _capacity;
-        private int top;
+        private uint _currentIndex;
 
-        public CustomStack(int size)
+        public CustomStack(uint capacity)
         {
-            _stack = new T[size];
-            _capacity = size;
+            if (capacity == 0)
+            {
+                throw new Exception("Size of the stack can not be zero");
+            }
+            
+            _stack = new T[capacity];
         }
 
         public void Push (T item)
         {
-            
+            if (_currentIndex >= _stack.Length)
+            {
+                throw new StackOverflowException();
+            }
+
+            _stack[_currentIndex] = item;
+
+            _currentIndex++;
         }
 
-        public void Pop (T item)
+        public T Pop ()
         {
+            if (_currentIndex == 0)
+            {
+                throw  new InvalidOperationException("Stack is empty");
+            }
 
+            _currentIndex--;
+
+            return _stack[_currentIndex];
         }
+
+        public T Peek()
+        {
+            if (_currentIndex == 0)
+            {
+                throw  new InvalidOperationException("Stack is empty");
+            }
+
+            return _stack[_currentIndex - 1];
+        }
+
     }
 }
